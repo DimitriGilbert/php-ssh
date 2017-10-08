@@ -75,6 +75,16 @@ class Session extends AbstractResourceHolder
     }
 
     /**
+     * Returns the Exec subsystem
+     *
+     * @return Exec
+     */
+    public function getShell()
+    {
+        return $this->getSubsystem('shell');
+    }
+
+    /**
      * Returns the specified subsystem
      *
      * If the subsystem does not exists, it will create it
@@ -111,6 +121,9 @@ class Session extends AbstractResourceHolder
                 break;
             case 'exec':
                 $subsystem = new Exec($this);
+                break;
+            case 'shell':
+                $subsystem = new Shell($this);
                 break;
             default:
                 throw new InvalidArgumentException(sprintf('The subsystem \'%s\' is not supported.', $name));
