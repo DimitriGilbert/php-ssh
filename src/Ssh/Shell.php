@@ -98,6 +98,17 @@ class Shell extends Subsystem
         return $data;
     }
 
+    public function readUntilDone()
+    {
+        $data = '';
+        while (!$this->isCommandDone($data)) {
+            $data .= $this->read(0, 0);
+            usleep(500000);
+        }
+
+        return $data;
+    }
+
     /**
      * execute a command with sudo
      *
