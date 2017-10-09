@@ -89,8 +89,11 @@ class Shell extends Subsystem
      */
     public function read(int $iteration = 0, int $sleep = 1)
     {
+        $data = '';
         sleep($sleep);
-        $data = stream_get_contents($this->shell);
+        if (!feof($this->shell)) {
+            $data = stream_get_contents($this->shell);
+        }
         if ($iteration !== 0 and !$this->isCommandDone($data)) {
             $iteration--;
             $data .= $this->read($iteration, $sleep);
@@ -103,7 +106,7 @@ class Shell extends Subsystem
         $data = '';
         while (!$this->isCommandDone($data)) {
             $data .= $this->read(0, 0);
-            usleep(500000);
+            usleep(200000);
         }
 
         return $data;
